@@ -1,27 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum CameraTrackWay
+{
+    trackHead,
+    trackVelocity
+}
+
 public class CameraRotate : MonoBehaviour {
 
     public float rotateSpeed;
-    
-	void Start () {
+
+    public CameraTrackWay cameraTrackWay;
+
+    void Start () {
 	
 	}
 
 	void Update () {
         if (Player.current != null)
         {
-            if (Input.GetKey(KeyCode.A))
+            if(CameraTrackWay.trackHead == cameraTrackWay)
             {
-                transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(90.0f, Player.current.transform.rotation.eulerAngles.y, 0);
             }
-            else if (Input.GetKey(KeyCode.D))
+            else
             {
-                transform.Rotate(Vector3.forward, -rotateSpeed * Time.deltaTime);
+                Vector3 velocityDir = Player.current.GetComponent<Rigidbody>().velocity.normalized;
+                float angle = Vector3.Angle(Vector3.forward, velocityDir);
+                if (velocityDir.x < 0) angle = -angle;
+                transform.rotation = Quaternion.Euler(90.0f, angle, 0);
             }
-            //print(transform.rotation.eulerAngles);
-            Player.current.forceAngle = transform.rotation.eulerAngles.y;
         }
+    }
+
+    public void RotateLeft()
+    {
+        //transform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+    }
+
+    public void RotateRight()
+    {
+        //transform.Rotate(Vector3.forward, -rotateSpeed * Time.deltaTime);
     }
 }
