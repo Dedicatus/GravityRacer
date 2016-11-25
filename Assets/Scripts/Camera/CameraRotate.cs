@@ -29,7 +29,8 @@ public class CameraRotate : MonoBehaviour {
                 Vector3 velocityDir = Player.current.GetComponent<Rigidbody>().velocity.normalized;
                 float angle = Vector3.Angle(Vector3.forward, velocityDir);
                 if (velocityDir.x < 0) angle = -angle;
-                transform.rotation = Quaternion.Euler(90.0f, angle, 0);
+                Quaternion target = Quaternion.Euler(90.0f, angle, 0);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
             }
         }
     }

@@ -9,17 +9,17 @@ public class Player : MonoBehaviour {
 
     public float pushForce;
     
-    Rigidbody rigidbody;
+    Rigidbody rigidBody;
 
     void Start () {
         current = this;
-        rigidbody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
 	}
 	
 	void Update () {
         //transform.rotation = Quaternion.Euler(0, forceAngle, 0);
         //rigidbody.AddForce(new Vector3(Mathf.Sin(forceRad), 0, Mathf.Cos(forceRad)) * pushForce);
-        rigidbody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
+        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
 	}
 
     public void RotateLeft()
