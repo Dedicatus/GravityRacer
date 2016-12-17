@@ -4,7 +4,8 @@ using System.Collections;
 public enum CameraTrackWay
 {
     trackHead,
-    trackVelocity
+    trackVelocity,
+    trackPosition
 }
 
 public class CameraRotate : MonoBehaviour {
@@ -24,13 +25,16 @@ public class CameraRotate : MonoBehaviour {
             {
                 transform.rotation = Quaternion.Euler(90.0f, Player.current.transform.rotation.eulerAngles.y, 0);
             }
-            else
+            else if (CameraTrackWay.trackVelocity == cameraTrackWay)
             {
                 Vector3 velocityDir = Player.current.GetComponent<Rigidbody>().velocity.normalized;
                 float angle = Vector3.Angle(Vector3.forward, velocityDir);
                 if (velocityDir.x < 0) angle = -angle;
                 Quaternion target = Quaternion.Euler(90.0f, angle, 0);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+            } else
+            {
+
             }
         }
     }
