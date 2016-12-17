@@ -23,7 +23,5 @@ public class InputHandler : MonoBehaviour {
         {
             Player.current.RotateRight();
         }
-            
-        
     }
 }
