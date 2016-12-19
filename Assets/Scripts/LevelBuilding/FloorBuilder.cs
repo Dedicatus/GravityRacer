@@ -55,8 +55,6 @@ public class FloorBuilder : MonoBehaviour {
         }
         while( (collidingIndex > startIndex && collidingIndex - startIndex > floorMeshCount / 2) || (collidingIndex < startIndex && collidingIndex + floorMeshCount - startIndex > floorMeshCount / 2)  )
         {
-            print(startIndex);
-
             floorMeshes[startIndex].prevPos1 = floorMeshes[endIndex].endPos1;
             floorMeshes[startIndex].prevPos2 = floorMeshes[endIndex].endPos2;
             floorMeshes[startIndex].prevDir = floorMeshes[endIndex].dir;
