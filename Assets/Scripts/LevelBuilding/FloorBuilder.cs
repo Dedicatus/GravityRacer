@@ -48,6 +48,7 @@ public class FloorBuilder : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (GameManager.current.state != GameManager.GameState.Running) return;
         collidedTime += Time.deltaTime;
         if(collidedTime >= 0.9f)
         {
