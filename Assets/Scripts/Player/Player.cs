@@ -8,10 +8,14 @@ public class Player : MonoBehaviour {
     public static Player current;
 
     public float pushForce;
+    public float gravity;
+
+    bool died;
     
     Rigidbody rigidBody;
 
     void Start () {
+        died = false;
         current = this;
         rigidBody = GetComponent<Rigidbody>();
 	}
@@ -21,8 +25,12 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
-	}
+        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
+
+        //gravity
+        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.down * gravity);
+
+    }
 
     public void RotateLeft()
     {
@@ -34,4 +42,11 @@ public class Player : MonoBehaviour {
         transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime);
     }
 
+    public void Die()
+    {
+        CameraFollow.current.follow = null;
+        died = true;
+        rigidBody.constraints = 0;
+        rigidBody.AddTorque(new Vector3(1, 1, 1), ForceMode.Impulse);
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 
@@ -25,8 +26,14 @@ public class InputHandler : MonoBehaviour {
 	void Update () {
 		
         if (Player.current == null) return;
+        if (Input.GetKey(KeyCode.R))
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
+        }
 
-		if (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D)) {
+
+            if (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D)) {
 			AccelarePlayer ();
 			flag = true;
 		} else if (Input.GetKey (KeyCode.A)) {

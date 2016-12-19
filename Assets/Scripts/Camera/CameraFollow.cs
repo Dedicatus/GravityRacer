@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraFollow : MonoBehaviour {
 
+    public static CameraFollow current;
+
     public GameObject follow;
     public float cameraY;
 
@@ -11,7 +13,9 @@ public class CameraFollow : MonoBehaviour {
     public float zoomOutWeight;
 
 	void Start () {
-	}
+        current = this;
+
+    }
 	
 	void Update () {
 	    if(follow != null)
@@ -20,7 +24,7 @@ public class CameraFollow : MonoBehaviour {
             if (zoom)
                 pos.y = getZoomCameraY(); //cameraY;
             else
-                pos.y = cameraY;
+                pos.y = pos.y + cameraY;
             transform.position = pos;
         }
 	}

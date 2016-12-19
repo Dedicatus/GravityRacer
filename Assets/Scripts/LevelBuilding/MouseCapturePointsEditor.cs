@@ -78,7 +78,11 @@ public class MouseCapturePointsEditor : Editor {
         //serializedObject.Update();
         //EditorGUILayout.PropertyField(lookAtPoint);
         //EditorGUILayout.LabelField("(Below this object)");
-        EditorGUILayout.PropertyField(toClear);
+        if(GUILayout.Button ("Clear"))
+        {
+            toClear.boolValue = true;
+        }
+        //EditorGUILayout.PropertyField(toClear);
         EditorGUILayout.PropertyField(toRename);
         EditorGUILayout.PropertyField(y);
         serializedObject.ApplyModifiedProperties();
