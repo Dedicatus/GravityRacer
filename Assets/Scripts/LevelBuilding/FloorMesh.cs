@@ -51,7 +51,8 @@ public class FloorMesh : MonoBehaviour {
 
         for(int a=0;a!=4;++a)
         {
-            normals[a] = Vector3.up;
+            Quaternion randomOffset = Quaternion.Euler( (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f));
+            normals[a] = randomOffset * Vector3.Cross(dir, (prevPos2 - prevPos1).normalized);  //Vector3.up;
         }
 
         triangles[0] = 0;

@@ -23,7 +23,7 @@ public class CameraRotate : MonoBehaviour {
         {
             if(CameraTrackWay.trackHead == cameraTrackWay)
             {
-                transform.rotation = Quaternion.Euler(90.0f, Player.current.transform.rotation.eulerAngles.y, 0);
+                transform.rotation = Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0);
             }
             else if (CameraTrackWay.trackVelocity == cameraTrackWay)
             {
