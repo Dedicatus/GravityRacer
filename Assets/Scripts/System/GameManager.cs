@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
 
     public int gameScore;
 	public int gameHighScore;
+    public int coinCount;
 
     public enum GameState
     {
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour {
 		gameHighScore = PlayerPrefs.GetInt ("High Score");
         current = this;
         state = GameState.Start;
+        coinCount = 0;
     }
 	
 	// Update is called once per frame

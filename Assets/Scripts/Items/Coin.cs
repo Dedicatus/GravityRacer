@@ -15,6 +15,7 @@ public class Coin : MonoBehaviour {
     {
         isUp = false;
         model.touched();
+        GameManager.current.coinCount++;
     }
 
     public void resetCoin()
