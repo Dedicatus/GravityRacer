@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour {
     public void StartGame()
     {
         //GameObject.Find("Player").active = true;
-        player.active = true;
+        //player.active = true;
+        Player.current.playerState = Player.PlayerState.Playing;
         print("Running");
         state = GameState.Running;
     }

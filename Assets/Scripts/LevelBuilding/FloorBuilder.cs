@@ -112,7 +112,7 @@ public class FloorBuilder : MonoBehaviour {
     void refreshFloorType()
     {
         floorType = (FloorType)Random.Range(0, 3);
-        print(floorType);
+        //print(floorType);
         switch(floorType)
         {
             case FloorType.Straight:

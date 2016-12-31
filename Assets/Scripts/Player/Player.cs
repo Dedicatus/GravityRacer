@@ -3,6 +3,14 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
+    public enum PlayerState
+    {
+        Paused,
+        Playing,
+        Dead
+    }
+
+
     public float rotateSpeed;
 
     public static Player current;
@@ -10,11 +18,16 @@ public class Player : MonoBehaviour {
     public float pushForce;
     public float gravity;
 
+    public PlayerState playerState;
+
+    public VehicleSuper vehicle;
+
     bool died;
     
     Rigidbody rigidBody;
 
     void Start () {
+        playerState = PlayerState.Paused;
         died = false;
         current = this;
         rigidBody = GetComponent<Rigidbody>();
@@ -25,25 +38,39 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
+        if(playerState == PlayerState.Playing || playerState == PlayerState.Dead)
+        {
+            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
+            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.down * gravity);
+        }
 
         //gravity
-        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.down * gravity);
 
     }
 
     public void RotateLeft()
     {
-        transform.Rotate(Vector3.up, -rotateSpeed * Time.deltaTime);
+        if (playerState == PlayerState.Playing)
+        {
+            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, -rotateSpeed * Time.deltaTime);
+            vehicle.OnRotateLeft();
+        }
+
     }
 
     public void RotateRight()
     {
-        transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime);
+        if (playerState == PlayerState.Playing)
+        {
+            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, rotateSpeed * Time.deltaTime);
+            vehicle.OnRotateRight();
+        }
     }
 
     public void Die()
     {
+        if (playerState == PlayerState.Dead) return;
+        playerState = PlayerState.Dead;
         CameraFollow.current.follow = null;
         if (died == false)
             GameManager.current.ReloadAfterDelay(2.0f);
