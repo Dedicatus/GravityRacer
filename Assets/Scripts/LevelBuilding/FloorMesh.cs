@@ -20,12 +20,6 @@ public class FloorMesh : MonoBehaviour {
 
     public void makeMesh()
     {
-        if (prevPos1 == null || prevPos2 == null)
-        {
-            print("prev pos is null");
-            return;
-        }
-
         Vector3 prevPosMid = (prevPos1 + prevPos2) / 2.0f;
         prevPosMid += dir * length;
         endPos1 = prevPosMid + (width / 2.0f * Vector3.Cross(dir, Vector3.up));
@@ -82,6 +76,8 @@ public class FloorMesh : MonoBehaviour {
             gameObject.AddComponent<MeshCollider>();
         }
     }
+
+    
 
 	// Use this for initialization
 	void Start () {

@@ -39,12 +39,19 @@ public class FloorBuilder : MonoBehaviour {
     public int remainingFloorCount;
     public float floorTurningAngle;
 
+    public static FloorBuilder current;
+
     public FloorMesh[] floorMeshes;
+
+    int coinCount; //coin count for current map
+    int coinRemain;
 
 
     // Use this for initialization
     void Start () {
-        
+
+        current = this;
+
         floorMeshes = new FloorMesh[floorMeshCount];
         startIndex = 0;
         endIndex = floorMeshCount-1;
@@ -76,6 +83,10 @@ public class FloorBuilder : MonoBehaviour {
             floorMeshes[a].prevPos1 = floorMeshes[a - 1].endPos1;
             floorMeshes[a].prevPos2 = floorMeshes[a - 1].endPos2;
             floorMeshes[a].makeMesh();
+
+            coinRemain--;
+            if(coinRemain>=0 && coinRemain < coinCount)
+                CoinGenerator.current.putCoin(a);
         }
     }
 	
@@ -114,6 +125,10 @@ public class FloorBuilder : MonoBehaviour {
         floorMeshes[startIndex].prevDir = floorMeshes[endIndex].dir;
         floorMeshes[startIndex].dir = Quaternion.Euler(0, floorTurningAngle, 0) * floorMeshes[startIndex].prevDir;
         floorMeshes[startIndex].makeMesh();
+
+        coinRemain--;
+        if (coinRemain >= 0 && coinRemain < coinCount)
+            CoinGenerator.current.putCoin(startIndex);
         endIndex = startIndex;
         startIndex = (startIndex + 1) % floorMeshCount;
 
@@ -127,18 +142,26 @@ public class FloorBuilder : MonoBehaviour {
         {
             case FloorType.Straight:
                 remainingFloorCount = Random.Range(3,6);
+                coinCount = Random.Range(0,remainingFloorCount);
+                coinRemain = Random.Range(coinCount, remainingFloorCount);
                 floorTurningAngle = 0;
                 break;
             case FloorType.SmoothCurve:
                 remainingFloorCount = Random.Range(5, 20);
+                coinCount = Random.Range(0, remainingFloorCount);
+                coinRemain = Random.Range(coinCount, remainingFloorCount);
                 floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(4.0f,10.0f);
                 break;
             case FloorType.SteepCurve:
                 remainingFloorCount = Random.Range(5, 10);
+                coinCount = Random.Range(0, remainingFloorCount);
+                coinRemain = Random.Range(coinCount, remainingFloorCount);
                 floorTurningAngle = (Random.Range(0.0f,1.0f)>0.5f?1:-1) *  Random.Range(10.0f, 15.0f);
                 break;
             case FloorType.UTurn:
                 remainingFloorCount = 10;
+                coinCount = Random.Range(0, remainingFloorCount);
+                coinRemain = Random.Range(coinCount, remainingFloorCount);
                 floorTurningAngle = (Random.Range(0, 1) > 0.5f ? 1 : -1) * Random.Range(5, 15);
                 break;
             case FloorType.NarrowWidth:
