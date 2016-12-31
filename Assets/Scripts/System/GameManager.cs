@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject player;
 
     public int gameScore;
+	public int gameHighScore;
 
     public enum GameState
     {
@@ -25,6 +26,12 @@ public class GameManager : MonoBehaviour {
         print("Running");
         state = GameState.Running;
     }
+	public void SetHighScore(){
+		if (gameScore > gameHighScore) {
+			gameHighScore = gameScore;
+			PlayerPrefs.SetInt ("High Score",gameHighScore);
+		}
+	}
 
     public void ReloadAfterDelay(float delay)
     {
@@ -38,7 +45,9 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(scene.name);
     }
 
+
     void Start () {
+		gameHighScore = PlayerPrefs.GetInt ("High Score");
         current = this;
         state = GameState.Start;
     }

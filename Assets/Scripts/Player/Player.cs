@@ -77,6 +77,7 @@ public class Player : MonoBehaviour {
         died = true;
         rigidBody.constraints = 0;
         rigidBody.AddTorque(new Vector3(1, 1, 1), ForceMode.Impulse);
+		GameManager.current.SetHighScore ();
     }
 
 }
