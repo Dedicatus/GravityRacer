@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
     public static GameManager current;
     public GameObject player;
 
+    public int gameScore;
+
     public enum GameState
     {
         Start,

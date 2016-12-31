@@ -14,6 +14,8 @@ public class FloorBuilder : MonoBehaviour {
 
     public float collidedTime;
 
+    public int collidedCount;
+
     public enum FloorType
     {
         Straight,
@@ -89,6 +91,14 @@ public class FloorBuilder : MonoBehaviour {
         {
             makeFloorByType();
         }
+    }
+
+    public void meshCollided(int index)
+    {
+        collidedCount += (index - collidingIndex)>0? (index - collidingIndex): collidingIndex - index;
+        GameManager.current.gameScore = collidedCount;
+        collidingIndex = index;
+        collidedTime = 0;
     }
 
     void makeFloorByType()

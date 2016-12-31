@@ -95,8 +95,8 @@ public class FloorMesh : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        transform.parent.GetComponent<FloorBuilder>().collidingIndex = index;
-        transform.parent.GetComponent<FloorBuilder>().collidedTime = 0;
+        transform.parent.GetComponent<FloorBuilder>().meshCollided(index);
+        //transform.parent.GetComponent<FloorBuilder>().collidedTime = 0;
     }
 
     /*void OnCollisionExit(Collision collision)
