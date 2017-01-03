@@ -147,7 +147,6 @@ public class FloorBuilder : MonoBehaviour {
         obstacleCountRemain--;
         if (obstacleCountRemain < obstacleCount && obstacleCountRemain >= 0)
         {
-            print(startIndex);
             ObstacleBuilder.current.makeObstacleOnMesh(startIndex);
         }
 

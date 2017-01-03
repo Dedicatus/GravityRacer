@@ -9,6 +9,9 @@ public class FloorMesh : MonoBehaviour {
 
     public int coinIndex = -1;
 
+    public GameObject leftRim;
+    public GameObject rightRim;
+
     public GameObject destroyOnRemake;
      
     public Vector3 prevPos1, prevPos2; //1 left, 2 right
@@ -85,6 +88,14 @@ public class FloorMesh : MonoBehaviour {
             DestroyImmediate(GetComponent<MeshCollider>());
             gameObject.AddComponent<MeshCollider>();
         }
+
+        leftRim.transform.position = (endPos1 + prevPos1) / 2.0f;
+        leftRim.transform.localScale = new Vector3(0.1f, 0.1f, (endPos1 - prevPos1).magnitude);
+        leftRim.transform.forward = (endPos1 - prevPos1).normalized;
+        rightRim.transform.position = (endPos2 + prevPos2) / 2.0f;
+        rightRim.transform.localScale = new Vector3(0.1f, 0.1f, (endPos2 - prevPos2).magnitude);
+        rightRim.transform.forward = (endPos2 - prevPos2).normalized;
+
     }
 
     

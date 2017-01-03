@@ -17,8 +17,6 @@ public class ObstacleBuilder : MonoBehaviour {
 	
     public void makeObstacleOnMesh(int meshIndex)
     {
-        print(1);
-
         GameObject obstacle = Instantiate<GameObject>(obstaclePrefab) as GameObject;
         FloorMesh floorMesh = FloorBuilder.current.floorMeshes[meshIndex];
         Vector3 cross = Vector3.Cross(floorMesh.prevDir, floorMesh.dir);
