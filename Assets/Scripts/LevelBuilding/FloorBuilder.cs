@@ -71,7 +71,7 @@ public class FloorBuilder : MonoBehaviour {
             GameObject floorObject = (GameObject)Instantiate<GameObject>(floorMeshPrefab);
             floorObject.transform.position = Vector3.zero;
             floorMeshes[a] = floorObject.GetComponent<FloorMesh>();
-            floorMeshes[a].width = 10;
+            floorMeshes[a].width = 15;
             floorMeshes[a].length = 3;
             floorMeshes[a].index = a;
             floorMeshes[a].coinIndex = -1;
