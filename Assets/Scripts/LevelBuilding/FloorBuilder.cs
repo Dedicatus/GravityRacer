@@ -29,11 +29,13 @@ public class FloorBuilder : MonoBehaviour {
     public float width;
     public float length;
 
+    public int initialStraightLength;
+
     public int collidingIndex;
 
     public int startIndex;
     public int endIndex;
-
+    
     public float collidedTime;
 
     public int collidedCount;
@@ -62,10 +64,11 @@ public class FloorBuilder : MonoBehaviour {
     int obstacleCount;
     int obstacleCountRemain;
 
+    float lastMakeFloor;
 
     // Use this for initialization
     void Start () {
-
+        
         current = this;
 
         floorMeshes = new FloorMesh[floorMeshCount];
@@ -80,7 +83,7 @@ public class FloorBuilder : MonoBehaviour {
             floorMeshes[a].coinIndex = -1;
             floorObject.transform.parent = transform;
         }
-        remainingFloorCount = 10;
+        remainingFloorCount = initialStraightLength;
         floorTurningAngle = 0;
         obstacleCount = 0;
         obstacleCountRemain = 0;
@@ -119,7 +122,7 @@ public class FloorBuilder : MonoBehaviour {
         {
             Player.current.Die();
         }
-        while( (collidingIndex > startIndex && collidingIndex - startIndex > floorMeshCount / 2) || (collidingIndex < startIndex && collidingIndex + floorMeshCount - startIndex > floorMeshCount / 2)  )
+        if( (collidingIndex > startIndex && collidingIndex - startIndex > floorMeshCount / 2) || (collidingIndex < startIndex && collidingIndex + floorMeshCount - startIndex > floorMeshCount / 2)  )
         {
             makeFloorByType();
         }
