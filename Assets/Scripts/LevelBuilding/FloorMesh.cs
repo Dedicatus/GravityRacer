@@ -8,6 +8,8 @@ public class FloorMesh : MonoBehaviour {
     public int index;
 
     public int coinIndex = -1;
+
+    public GameObject destroyOnRemake;
      
     public Vector3 prevPos1, prevPos2; //1 left, 2 right
     public Vector3 dir, prevDir;
@@ -29,6 +31,9 @@ public class FloorMesh : MonoBehaviour {
 
         CoinGenerator.current.disableCoin(coinIndex);
         coinIndex = -1;
+
+        if (destroyOnRemake != null)
+            Destroy(destroyOnRemake);
 
         mesh = new Mesh();
 
@@ -56,7 +61,7 @@ public class FloorMesh : MonoBehaviour {
         {
             //Quaternion randomOffset = Quaternion.Euler( (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f));
             //normals[a] = randomOffset * Vector3.Cross(dir, (prevPos2 - prevPos1).normalized);  //Vector3.up;
-            normals[a] = Quaternion.Euler(0, 0, dir.x) * Vector3.up;
+            normals[a] = Quaternion.Euler(dir.x, 0, 0) * Vector3.up;
         }
 
         triangles[0] = 0;
@@ -96,7 +101,8 @@ public class FloorMesh : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        transform.parent.GetComponent<FloorBuilder>().meshCollided(index);
+        if(collision.other.tag == "Player")
+            transform.parent.GetComponent<FloorBuilder>().meshCollided(index);
         //transform.parent.GetComponent<FloorBuilder>().collidedTime = 0;
     }
 

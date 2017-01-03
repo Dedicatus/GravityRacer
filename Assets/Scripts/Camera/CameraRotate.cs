@@ -19,7 +19,7 @@ public class CameraRotate : MonoBehaviour {
 	}
 
 	void Update () {
-        if (Player.current != null)
+        if (Player.current != null && Player.current.playerState != Player.PlayerState.Dead)
         {
             if(CameraTrackWay.trackHead == cameraTrackWay)
             {

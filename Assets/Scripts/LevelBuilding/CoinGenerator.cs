@@ -33,7 +33,6 @@ public class CoinGenerator : MonoBehaviour {
 
     public void putCoin(int meshIndex)
     {
-        print(notShowingCoins.Count);
         if (notShowingCoins.Count == 0) return;
         Coin coin = notShowingCoins.Dequeue();
         coin.resetCoin();

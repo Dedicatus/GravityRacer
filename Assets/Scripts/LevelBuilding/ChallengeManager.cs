@@ -37,22 +37,24 @@ public class ChallengeManager : MonoBehaviour {
         switch (data.floorType)
         {
             case FloorType.Straight:
-                data.floorCount = Random.Range(3, 6);
+                data.floorCount = Random.Range(0, 3);
                 data.coinCount = Random.Range(0, data.floorCount);
                 data.floorTurningAngle = 0;
-                data.obstacleCount = 0;//Random.Range(0, data.floorCount / 3);
+                data.obstacleCount = Random.Range(0, data.floorCount-1);
                 remainingChallenges -= data.obstacleCount;
                 break;
             case FloorType.SmoothCurve:
                 data.floorCount = Random.Range(5, 20);
                 data.coinCount = Random.Range(0, data.floorCount);
                 data.floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(4.0f, 10.0f);
+                data.obstacleCount = Random.Range(0, data.floorCount / 3);
                 remainingChallenges -= 2;
                 break;
             case FloorType.SteepCurve:
                 data.floorCount = Random.Range(5, 10);
                 data.coinCount = Random.Range(0, data.floorCount);
                 data.floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(10.0f, 15.0f);
+                data.obstacleCount = Random.Range(0, data.floorCount / 3);
                 remainingChallenges -= 3;
                 break;
             case FloorType.UTurn:

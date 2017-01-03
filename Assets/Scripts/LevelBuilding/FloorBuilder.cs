@@ -56,6 +56,8 @@ public class FloorBuilder : MonoBehaviour {
 
     int coinCount; //coin count for current map
     int coinRemain;
+    int obstacleCount;
+    int obstacleCountRemain;
 
 
     // Use this for initialization
@@ -64,8 +66,6 @@ public class FloorBuilder : MonoBehaviour {
         current = this;
 
         floorMeshes = new FloorMesh[floorMeshCount];
-        startIndex = 0;
-        endIndex = floorMeshCount-1;
         for(int a=0;a!=floorMeshCount;++a)
         {
             GameObject floorObject = (GameObject)Instantiate<GameObject>(floorMeshPrefab);
@@ -79,15 +79,20 @@ public class FloorBuilder : MonoBehaviour {
         }
         remainingFloorCount = 10;
         floorTurningAngle = 0;
+        obstacleCount = 0;
+        obstacleCountRemain = 0;
 
         floorMeshes[0].prevPos1 = new Vector3(0, 0, 0);
         floorMeshes[0].prevPos2 = new Vector3(5, 0, 0);
         floorMeshes[0].dir = (new Vector3(0, -0.05f, 0.9f)).normalized;
         floorMeshes[0].prevDir = Vector3.forward;
         floorMeshes[0].makeMesh();
+
+        startIndex = 1;
+        endIndex = 0;
         for (int a = 1; a != floorMeshCount; ++a)
         {
-            remainingFloorCount--;
+            /*remainingFloorCount--;
             if (remainingFloorCount <= 0)
                 getFloorTypeByChallengeManager();//refreshFloorType();
             floorMeshes[a].prevDir = floorMeshes[a - 1].dir;
@@ -98,7 +103,8 @@ public class FloorBuilder : MonoBehaviour {
 
             coinRemain--;
             if(coinRemain>=0 && coinRemain < coinCount)
-                CoinGenerator.current.putCoin(a);
+                CoinGenerator.current.putCoin(a);*/
+            makeFloorByType();
         }
     }
 	
@@ -138,6 +144,13 @@ public class FloorBuilder : MonoBehaviour {
         floorMeshes[startIndex].dir = Quaternion.Euler(0, floorTurningAngle, 0) * floorMeshes[startIndex].prevDir;
         floorMeshes[startIndex].makeMesh();
 
+        obstacleCountRemain--;
+        if (obstacleCountRemain < obstacleCount && obstacleCountRemain >= 0)
+        {
+            print(startIndex);
+            ObstacleBuilder.current.makeObstacleOnMesh(startIndex);
+        }
+
         coinRemain--;
         if (coinRemain >= 0 && coinRemain < coinCount)
             CoinGenerator.current.putCoin(startIndex);
@@ -153,6 +166,8 @@ public class FloorBuilder : MonoBehaviour {
         coinCount = data.coinCount;
         coinRemain = Random.Range(coinCount, remainingFloorCount);
         floorTurningAngle = data.floorTurningAngle;
+        obstacleCount = data.obstacleCount;
+        obstacleCountRemain = obstacleCount;
     }
 
     void refreshFloorType()
