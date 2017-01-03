@@ -44,8 +44,8 @@ public class FloorMesh : MonoBehaviour {
         vertices[3] = endPos2;
 
         uvs[0] = new Vector2(0.0f, 0.0f);
-        uvs[1] = new Vector2(0.0f, 1.0f);
-        uvs[2] = new Vector2(1.0f, 0.0f);
+        uvs[1] = new Vector2(1.0f, 0.0f);
+        uvs[2] = new Vector2(0.0f, 1.0f);
         uvs[3] = new Vector2(1.0f, 1.0f);
 
        // float dot = Vector3.Dot(prevDir, dir);
@@ -54,9 +54,9 @@ public class FloorMesh : MonoBehaviour {
         //print(angle);
         for(int a=0;a!=4;++a)
         {
-            Quaternion randomOffset = Quaternion.Euler( (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f));
-            normals[a] = randomOffset * Vector3.Cross(dir, (prevPos2 - prevPos1).normalized);  //Vector3.up;
-            //normals[a] = Quaternion.Euler(0, 0, angle) * Vector3.up;
+            //Quaternion randomOffset = Quaternion.Euler( (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f));
+            //normals[a] = randomOffset * Vector3.Cross(dir, (prevPos2 - prevPos1).normalized);  //Vector3.up;
+            normals[a] = Quaternion.Euler(0, 0, dir.x) * Vector3.up;
         }
 
         triangles[0] = 0;
