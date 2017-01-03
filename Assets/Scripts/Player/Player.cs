@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
     public enum PlayerState
     {
         Paused,
+        Launching,
         Playing,
         Dead
     }
@@ -34,7 +35,9 @@ public class Player : MonoBehaviour {
 	}
 	
 	void Update () {
-		
+		if(playerState == PlayerState.Launching)
+        {
+        }
 	}
 
 	void FixedUpdate() {
@@ -42,10 +45,29 @@ public class Player : MonoBehaviour {
         {
             rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
             rigidBody.AddForce(Vector3.down * gravity);
+        } else if(playerState == PlayerState.Launching)
+        {
+            rigidBody.AddForce(Vector3.down * gravity);
         }
 
         //gravity
 
+    }
+
+    public void Launch()
+    {
+        playerState = PlayerState.Launching;
+
+        GetComponent<Rigidbody>().useGravity = true;
+        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * 100, ForceMode.Impulse);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(playerState == PlayerState.Launching)
+        {
+            playerState = PlayerState.Playing;
+        }
     }
 
     public void RotateLeft()

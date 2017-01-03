@@ -18,6 +18,8 @@ public class FloorMesh : MonoBehaviour {
     public Vector3 dir, prevDir;
     public Vector3 endPos1, endPos2;
 
+    bool animating;
+
     Vector3[] vertices;
     Vector2[] uvs;
     Vector3[] normals;
@@ -96,9 +98,19 @@ public class FloorMesh : MonoBehaviour {
         rightRim.transform.localScale = new Vector3(0.1f, 0.1f, (endPos2 - prevPos2).magnitude);
         rightRim.transform.forward = (endPos2 - prevPos2).normalized;
 
+        animateToDest();
+        //dir.y += 0.01f;
+        // dir.Normalize();
     }
 
-    
+    void animateToDest()
+    {
+        transform.position = new Vector3(0, -100.0f, 0);
+        GetComponent<MoveToDecreasingSpeed>().from = transform.position;
+        GetComponent<MoveToDecreasingSpeed>().to = Vector3.zero;
+        GetComponent<MoveToDecreasingSpeed>().resetAnim();
+        animating = true;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -107,13 +119,23 @@ public class FloorMesh : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(animating)
+        {
+            GetComponent<MoveToDecreasingSpeed>().moveToword();
+            if (GetComponent<MoveToDecreasingSpeed>().reached == true) animating = false;
+        }
 	}
 
     void OnCollisionEnter(Collision collision)
     {
         if(collision.other.tag == "Player")
+        {
+            Vector3 rot = Player.current.transform.eulerAngles;
+            rot.x = -Mathf.Asin(dir.y) * Mathf.Rad2Deg + 14;
+            Player.current.transform.eulerAngles = rot;//.up = Vector3.Cross(endPos1 - prevPos1, prevPos2 - prevPos1).normalized;
             transform.parent.GetComponent<FloorBuilder>().meshCollided(index);
+        }
+        
         //transform.parent.GetComponent<FloorBuilder>().collidedTime = 0;
     }
 

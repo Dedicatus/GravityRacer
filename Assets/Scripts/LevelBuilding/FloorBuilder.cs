@@ -25,7 +25,10 @@ public class FloorBuilder : MonoBehaviour {
 
     public int floorMeshCount;
     public GameObject floorMeshPrefab;
-    
+
+    public float width;
+    public float length;
+
     public int collidingIndex;
 
     public int startIndex;
@@ -71,8 +74,8 @@ public class FloorBuilder : MonoBehaviour {
             GameObject floorObject = (GameObject)Instantiate<GameObject>(floorMeshPrefab);
             floorObject.transform.position = Vector3.zero;
             floorMeshes[a] = floorObject.GetComponent<FloorMesh>();
-            floorMeshes[a].width = 15;
-            floorMeshes[a].length = 3;
+            floorMeshes[a].width = width;
+            floorMeshes[a].length = length;
             floorMeshes[a].index = a;
             floorMeshes[a].coinIndex = -1;
             floorObject.transform.parent = transform;
@@ -138,6 +141,8 @@ public class FloorBuilder : MonoBehaviour {
         }
         remainingFloorCount--;
 
+        floorMeshes[startIndex].width = width;
+        floorMeshes[startIndex].length = length;
         floorMeshes[startIndex].prevPos1 = floorMeshes[endIndex].endPos1;
         floorMeshes[startIndex].prevPos2 = floorMeshes[endIndex].endPos2;
         floorMeshes[startIndex].prevDir = floorMeshes[endIndex].dir;

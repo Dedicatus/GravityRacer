@@ -10,8 +10,11 @@ public class ChallengeManager : MonoBehaviour {
     public int challengesPerRest;
     public int remainingChallenges;
 
-	// Use this for initialization
-	void Start () {
+    public float startTime;
+    public float getHardTimeRemain;
+
+    // Use this for initialization
+    void Start () {
         current = this;
         remainingChallenges = challengesPerRest;
     }
@@ -72,10 +75,27 @@ public class ChallengeManager : MonoBehaviour {
                 break;
         }
         return data;
-    } 
+    }
 
+
+
+    void addDifficulty()
+    {
+        print(Time.deltaTime);
+        if (FloorBuilder.current.width > 10.0f)
+        {
+            FloorBuilder.current.width -= 1.0f;
+            Time.timeScale += 0.1f;
+        }
+    }
     // Update is called once per frame
     void Update () {
-		
-	}
+
+        getHardTimeRemain -= Time.deltaTime;
+        if (getHardTimeRemain <= 0)
+        {
+            addDifficulty();
+            getHardTimeRemain = 15.0f;
+        }
+    }
 }
