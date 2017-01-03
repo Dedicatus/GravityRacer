@@ -4,29 +4,39 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour {
     public int index;
-    public bool isUp;
+    public int meshIndex;
+
+    public bool isShowing;
+
     public CoinModel model;
 	// Use this for initialization
 	void Start () {
-        isUp = false;
+        isShowing = false;
+        disableCoin();
 	}
 
     void OnTriggerEnter(Collider other)
     {
-        isUp = false;
         model.touched();
         GameManager.current.coinCount++;
+        //FloorBuilder.current.floorMeshes[meshIndex].coinIndex = -1;
     }
 
     public void resetCoin()
     {
         model.resetCoin();
+        GetComponent<BoxCollider>().enabled = true;
+    }
+
+    public void disableCoin()
+    {
+        model.disabled();
+        GetComponent<BoxCollider>().enabled = false;
     }
 
     public void passed()
     {
-        isUp = false;
-        CoinGenerator.current.resetCoins(index);
+        //CoinGenerator.current.resetCoins(index);
     }
 
 	// Update is called once per frame

@@ -14,6 +14,11 @@ public class CoinModel : MonoBehaviour {
         GetComponent<MeshRenderer>().enabled = false;
     }
 
+    public void disabled()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+
     public void resetCoin()
     {
         GetComponent<MeshRenderer>().enabled = true;

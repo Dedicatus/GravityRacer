@@ -7,6 +7,8 @@ public class FloorMesh : MonoBehaviour {
     public float width, length;
     public int index;
 
+    public int coinIndex = -1;
+     
     public Vector3 prevPos1, prevPos2; //1 left, 2 right
     public Vector3 dir, prevDir;
     public Vector3 endPos1, endPos2;
@@ -24,6 +26,9 @@ public class FloorMesh : MonoBehaviour {
         prevPosMid += dir * length;
         endPos1 = prevPosMid + (width / 2.0f * Vector3.Cross(dir, Vector3.up));
         endPos2 = prevPosMid - (width / 2.0f * Vector3.Cross(dir, Vector3.up));
+
+        CoinGenerator.current.disableCoin(coinIndex);
+        coinIndex = -1;
 
         mesh = new Mesh();
 
@@ -81,8 +86,8 @@ public class FloorMesh : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

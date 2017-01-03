@@ -11,30 +11,36 @@ public class CoinGenerator : MonoBehaviour {
 
     int currentCoinIndex;
     public Coin[] coins;
-
+    public Queue<Coin> notShowingCoins;
 
 	// Use this for initialization
 	void Awake () {
         current = this;
         currentCoinIndex = 0;
         coins = new Coin[coinCount];
+        notShowingCoins = new Queue<Coin>();
         for (int a = 0; a != coinCount; ++a)
         {
             GameObject coinObject = (GameObject)Instantiate<GameObject>(coinPrefab);
             coinObject.transform.position = Vector3.zero;
             coins[a] = coinObject.GetComponent<Coin>();
             coins[a].index = a;
+            coins[a].disableCoin();
+            notShowingCoins.Enqueue(coins[a]);
             coinObject.transform.parent = transform;
         }
     }
 
     public void putCoin(int meshIndex)
     {
-        if (coins[currentCoinIndex].isUp) return;
-        coins[currentCoinIndex].isUp = true;
-        coins[currentCoinIndex].resetCoin();
+        print(notShowingCoins.Count);
+        if (notShowingCoins.Count == 0) return;
+        Coin coin = notShowingCoins.Dequeue();
+        coin.resetCoin();
         FloorMesh floorMesh = FloorBuilder.current.floorMeshes[meshIndex];
-        GameObject obj = coins[currentCoinIndex++].gameObject;
+        coin.meshIndex = meshIndex;
+        floorMesh.coinIndex = coin.index;
+        GameObject obj = coin.gameObject;
         Vector3 cross = Vector3.Cross(floorMesh.prevDir, floorMesh.dir);
         //print(dot);
         float posScale = cross.y < 0 ? 0.8f : 0.2f;
@@ -46,6 +52,20 @@ public class CoinGenerator : MonoBehaviour {
         obj.transform.forward = floorMesh.prevDir;
         if (currentCoinIndex >= coinCount)
             currentCoinIndex = 0;
+    }
+
+    IEnumerator resetCoinAfterSecond(float second, int index)
+    {
+        yield return new WaitForSeconds(second);
+        //resetCoin(index);
+    }
+
+    public void disableCoin(int index)
+    {
+        //print(index);
+        if (index < 0 || index >= coinCount) return;
+        notShowingCoins.Enqueue(coins[index]);
+        coins[index].disableCoin();
     }
     
     public void resetCoins(int start)
@@ -59,7 +79,6 @@ public class CoinGenerator : MonoBehaviour {
         }
         for(int a=start; a<=end;++a)
         {
-            coins[a].isUp = false;
         }
     }
 

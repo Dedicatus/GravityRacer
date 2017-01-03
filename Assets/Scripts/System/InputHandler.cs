@@ -73,7 +73,7 @@ public class InputHandler : MonoBehaviour {
             {
                 Touch touch1 = Input.touches[0];
                 Touch touch2 = Input.touches[1];
-                if (touch1.position.x < Screen.width / 2.0f && touch2.position.x > Screen.width / 2.0f)
+                if ((touch1.position.x <= Screen.width / 2.0f && touch2.position.x >= Screen.width / 2.0f) || (touch1.position.x >= Screen.width / 2.0f && touch2.position.x <= Screen.width / 2.0f))
                 {
                     AccelarePlayer();
                     flag = true;

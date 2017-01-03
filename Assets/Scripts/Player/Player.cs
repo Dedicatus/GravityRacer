@@ -41,7 +41,7 @@ public class Player : MonoBehaviour {
         if(playerState == PlayerState.Playing || playerState == PlayerState.Dead)
         {
             rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
-            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.down * gravity);
+            rigidBody.AddForce(Vector3.down * gravity);
         }
 
         //gravity
