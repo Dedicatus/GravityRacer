@@ -174,7 +174,7 @@ public class FloorBuilder : MonoBehaviour {
         coinRemain = Random.Range(coinCount, remainingFloorCount);
         floorTurningAngle = data.floorTurningAngle;
         obstacleCount = data.obstacleCount;
-        obstacleCountRemain = obstacleCount;
+        obstacleCountRemain = Random.Range(obstacleCount, remainingFloorCount);
     }
 
     void refreshFloorType()

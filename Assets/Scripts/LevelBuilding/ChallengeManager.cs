@@ -95,7 +95,7 @@ public class ChallengeManager : MonoBehaviour {
         if (getHardTimeRemain <= 0)
         {
             addDifficulty();
-            getHardTimeRemain = 15.0f;
+            getHardTimeRemain = 30.0f;
         }
     }
 }
