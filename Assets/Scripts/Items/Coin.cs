@@ -28,6 +28,19 @@ public class Coin : MonoBehaviour {
         GetComponent<BoxCollider>().enabled = true;
     }
 
+    public void startAnim()
+    {
+        if (gameObject.GetComponent<MoveToDecreasingSpeed>() == null)
+            gameObject.AddComponent<MoveToDecreasingSpeed>();
+        MoveToDecreasingSpeed anim = gameObject.GetComponent<MoveToDecreasingSpeed>();
+        anim.maxSpeed = 100;
+        anim.minSpeed = 50;
+        anim.to = transform.position;
+        transform.position = transform.position + new Vector3(0, 100, 0);
+        anim.from = transform.position;
+        anim.resetAnim();
+    }
+
     public void disableCoin()
     {
         model.disabled();

@@ -40,6 +40,7 @@ public class MoveToDecreasingSpeed : MonoBehaviour {
     }
 
 	void Update () {
-		
+        if (!reached)
+            moveToword();
 	}
 }

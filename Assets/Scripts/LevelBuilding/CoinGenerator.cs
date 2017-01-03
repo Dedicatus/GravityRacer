@@ -49,6 +49,8 @@ public class CoinGenerator : MonoBehaviour {
         
         obj.transform.position = prevPosMid;
         obj.transform.forward = floorMesh.prevDir;
+        coin.startAnim();
+
         if (currentCoinIndex >= coinCount)
             currentCoinIndex = 0;
     }

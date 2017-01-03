@@ -121,7 +121,7 @@ public class FloorMesh : MonoBehaviour {
 	void Update () {
 		if(animating)
         {
-            GetComponent<MoveToDecreasingSpeed>().moveToword();
+            //GetComponent<MoveToDecreasingSpeed>().moveToword();
             if (GetComponent<MoveToDecreasingSpeed>().reached == true) animating = false;
         }
 	}
