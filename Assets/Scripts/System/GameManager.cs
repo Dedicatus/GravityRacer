@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene(scene.name);
     }
 
+
     void Start () {
 		gameHighScore = PlayerPrefs.GetInt ("High Score");
         current = this;
