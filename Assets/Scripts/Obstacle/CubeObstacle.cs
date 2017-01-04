@@ -11,7 +11,7 @@ public class CubeObstacle : Obstacle {
 	
 	// Update is called once per frame
 	void Update () {
-		if(GetComponent<MoveToDecreasingSpeed>().reached)
+		if(GetComponent<MoveToDecSpeedWithoutRot>().reached)
         {
             GetComponent<Rigidbody>().useGravity = true;
             GetComponent<BoxCollider>().enabled = true;
@@ -20,9 +20,9 @@ public class CubeObstacle : Obstacle {
 
     public void startAnim()
     {
-        if (gameObject.GetComponent<MoveToDecreasingSpeed>() == null)
-            gameObject.AddComponent<MoveToDecreasingSpeed>();
-        MoveToDecreasingSpeed anim = gameObject.GetComponent<MoveToDecreasingSpeed>();
+        if (gameObject.GetComponent<MoveToDecSpeedWithoutRot>() == null)
+            gameObject.AddComponent<MoveToDecSpeedWithoutRot>();
+        MoveToDecSpeedWithoutRot anim = gameObject.GetComponent<MoveToDecSpeedWithoutRot>();
         anim.maxSpeed = 100;
         anim.minSpeed = 50;
         anim.to = transform.position;

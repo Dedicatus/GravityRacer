@@ -8,10 +8,14 @@ public class ObstacleBuilder : MonoBehaviour {
 
     GameObject obstaclePrefab; //future: change to array
 
-	void Start () {
+    private void Awake()
+    {
         current = this;
 
         obstaclePrefab = Resources.Load("Prefabs/Obstacles/CubeObstacle") as GameObject;
+    }
+
+    void Start () {
 
     }
 	

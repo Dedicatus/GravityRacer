@@ -30,9 +30,9 @@ public class Coin : MonoBehaviour {
 
     public void startAnim()
     {
-        if (gameObject.GetComponent<MoveToDecreasingSpeed>() == null)
-            gameObject.AddComponent<MoveToDecreasingSpeed>();
-        MoveToDecreasingSpeed anim = gameObject.GetComponent<MoveToDecreasingSpeed>();
+        if (gameObject.GetComponent<MoveToDecSpeedWithoutRot>() == null)
+            gameObject.AddComponent<MoveToDecSpeedWithoutRot>();
+        MoveToDecSpeedWithoutRot anim = gameObject.GetComponent<MoveToDecSpeedWithoutRot>();
         anim.maxSpeed = 100;
         anim.minSpeed = 50;
         anim.to = transform.position;
