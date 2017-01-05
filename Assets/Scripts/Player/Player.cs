@@ -91,11 +91,11 @@ public class Player : MonoBehaviour {
 
     public void Die()
     {
-        if (playerState == PlayerState.Dead) return;
+		if (playerState == PlayerState.Dead) return;
         playerState = PlayerState.Dead;
         CameraFollow.current.follow = null;
-        if (died == false)
-            GameManager.current.ReloadAfterDelay(2.0f);
+        //if (died == false)
+            //GameManager.current.ReloadAfterDelay(2.0f);
         died = true;
         rigidBody.constraints = 0;
         rigidBody.AddTorque(new Vector3(1, 1, 1), ForceMode.Impulse);
