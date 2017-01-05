@@ -23,7 +23,8 @@ public class CameraRotate : MonoBehaviour {
         {
             if(CameraTrackWay.trackHead == cameraTrackWay)
             {
-                transform.rotation = Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0);
+                transform.rotation =Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0);
+                //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0), rotateSpeed*Time.deltaTime);
             }
             else if (CameraTrackWay.trackVelocity == cameraTrackWay)
             {
@@ -31,7 +32,7 @@ public class CameraRotate : MonoBehaviour {
                 float angle = Vector3.Angle(Vector3.forward, velocityDir);
                 if (velocityDir.x < 0) angle = -angle;
                 Quaternion target = Quaternion.Euler(90.0f, angle, 0);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(30.0f, angle, 0); //Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
             } else
             {
 

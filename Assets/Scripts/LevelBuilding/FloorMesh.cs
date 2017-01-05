@@ -92,10 +92,10 @@ public class FloorMesh : MonoBehaviour {
         }
 
         leftRim.transform.position = (endPos1 + prevPos1) / 2.0f;
-        leftRim.transform.localScale = new Vector3(0.1f, 0.1f, (endPos1 - prevPos1).magnitude);
+        leftRim.transform.localScale = new Vector3(0.3f, 0.3f, (endPos1 - prevPos1).magnitude);
         leftRim.transform.forward = (endPos1 - prevPos1).normalized;
         rightRim.transform.position = (endPos2 + prevPos2) / 2.0f;
-        rightRim.transform.localScale = new Vector3(0.1f, 0.1f, (endPos2 - prevPos2).magnitude);
+        rightRim.transform.localScale = new Vector3(0.3f, 0.3f, (endPos2 - prevPos2).magnitude);
         rightRim.transform.forward = (endPos2 - prevPos2).normalized;
 
         animateToDest();
