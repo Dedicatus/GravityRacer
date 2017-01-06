@@ -60,9 +60,5 @@ public class Coin : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if(gameObject.GetComponent<MoveToDecSpeedWithoutRot>() != null && gameObject.GetComponent<MoveToDecSpeedWithoutRot>().reached == true)
-        {
-            GetComponent<BoxCollider>().enabled = true;
-        }
     }
 }

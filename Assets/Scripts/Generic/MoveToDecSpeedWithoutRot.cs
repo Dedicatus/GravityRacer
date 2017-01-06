@@ -33,6 +33,7 @@ public class MoveToDecSpeedWithoutRot : MonoBehaviour {
         if (pos == to)
         {
             reached = true;
+            GetComponent<BoxCollider>().enabled = true;
         }
     }
 
