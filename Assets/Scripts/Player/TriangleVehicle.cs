@@ -28,7 +28,8 @@ public class TriangleVehicle : VehicleSuper {
 
     void Update()
     {
-        if(turning)
+        tiltAngle = transform.eulerAngles.z;
+        if (turning)
         {
             turning = false;
             return;

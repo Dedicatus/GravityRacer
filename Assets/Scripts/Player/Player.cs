@@ -93,7 +93,6 @@ public class Player : MonoBehaviour {
     {
 		if (playerState == PlayerState.Dead) return;
         playerState = PlayerState.Dead;
-        CameraFollow.current.follow = null;
         if (died == false)
             GameManager.current.ReloadAfterDelay(2.0f);
         died = true;

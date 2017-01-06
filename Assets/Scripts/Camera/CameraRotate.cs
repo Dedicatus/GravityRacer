@@ -10,7 +10,11 @@ public enum CameraTrackWay
 
 public class CameraRotate : MonoBehaviour {
 
+    public VehicleSuper follow;
+
     public float rotateSpeed;
+
+    public float cameraAngleY;
 
     public CameraTrackWay cameraTrackWay;
 
@@ -28,11 +32,20 @@ public class CameraRotate : MonoBehaviour {
             }
             else if (CameraTrackWay.trackVelocity == cameraTrackWay)
             {
-                Vector3 velocityDir = Player.current.GetComponent<Rigidbody>().velocity.normalized;
-                float angle = Vector3.Angle(Vector3.forward, velocityDir);
-                if (velocityDir.x < 0) angle = -angle;
-                Quaternion target = Quaternion.Euler(90.0f, angle, 0);
-                transform.rotation = Quaternion.Euler(30.0f, angle, 0); //Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                Quaternion target = Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                transform.position = Player.current.transform.position - transform.forward * 30.0f;
+                //Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                //Quaternion.Euler(90.0f, angle, 0);
+                //transform.rotation = target; //Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                //Vector3 velocityDir = Player.current.GetComponent<Rigidbody>().velocity.normalized;
+                //float angle = Vector3.Angle(Vector3.forward, velocityDir);
+                //if (velocityDir.x < 0) angle = -angle;
+                // float tiltScaler = 1.0f;
+                // float tiltAngle = follow.tiltAngle > 180.0f ? 360 - (360 - follow.tiltAngle) / tiltScaler : follow.tiltAngle / tiltScaler;
+                // Quaternion target = Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y - tiltAngle, 0);//Quaternion.Euler(90.0f, angle, 0);
+                //transform.rotation = target; //Quaternion.RotateTowards(transform.rotation, target, rotateSpeed * Time.deltaTime);
+                //transform.Rotate(0, follow.transform.eulerAngles.z, 0);
             } else
             {
 
