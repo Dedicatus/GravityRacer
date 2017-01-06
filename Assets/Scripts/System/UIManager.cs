@@ -5,10 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour {
+
 	public Text raceScore;
 	public Text highScore;
 	public Text coinNumbers;
+    public Text FPS;
 	public Button restart;
+
+    float deltaTime = 0;
 	// Use this for initialization
 	void Start () {
 		
@@ -19,7 +23,14 @@ public class UIManager : MonoBehaviour {
 		raceScore.text = GameManager.current.gameScore.ToString();
 		highScore.text = "High Score:" + GameManager.current.gameHighScore.ToString ();
 		coinNumbers.text = "Coin:" + GameManager.current.coinCount.ToString ();
-		if (Player.current.playerState == Player.PlayerState.Dead) {
+
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+
+        float msec = deltaTime * 1000.0f;
+        float fps = 1.0f / deltaTime;
+        FPS.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+
+        if (Player.current.playerState == Player.PlayerState.Dead) {
 			restart.interactable = true;
 			//	restart.onClick.AddListener (ReloadGame);
 			restart.gameObject.SetActive(true);
