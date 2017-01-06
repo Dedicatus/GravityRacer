@@ -53,7 +53,10 @@ public class GameManager : MonoBehaviour {
 
     void Start () {
         Application.targetFrameRate = 60;
-		gameHighScore = PlayerPrefs.GetInt ("High Score");
+        //QualitySettings.antiAliasing = 0;
+        QualitySettings.shadowCascades = 2;
+        QualitySettings.shadowDistance = 150;
+        gameHighScore = PlayerPrefs.GetInt ("High Score");
         current = this;
         state = GameState.Start;
         coinCount = 0;
