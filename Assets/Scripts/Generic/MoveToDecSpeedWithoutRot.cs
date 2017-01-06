@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MoveToDecSpeedWithoutRot : MonoBehaviour {
 
@@ -14,7 +15,8 @@ public class MoveToDecSpeedWithoutRot : MonoBehaviour {
     public float minSpeedThreshold;
 
     public bool reached;
-    
+
+    public UnityEvent triggerReached;
 
     public void resetAnim()
     {

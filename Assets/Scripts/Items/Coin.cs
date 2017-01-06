@@ -32,6 +32,7 @@ public class Coin : MonoBehaviour {
     {
         if (gameObject.GetComponent<MoveToDecSpeedWithoutRot>() == null)
             gameObject.AddComponent<MoveToDecSpeedWithoutRot>();
+        GetComponent<BoxCollider>().enabled = false;
         MoveToDecSpeedWithoutRot anim = gameObject.GetComponent<MoveToDecSpeedWithoutRot>();
         anim.maxSpeed = 100;
         anim.minSpeed = 50;
@@ -39,6 +40,11 @@ public class Coin : MonoBehaviour {
         transform.position = transform.position + new Vector3(0, 100, 0);
         anim.from = transform.position;
         anim.resetAnim();
+    }
+
+    public void Reached()
+    {
+        GetComponent<BoxCollider>().enabled = true;
     }
 
     public void disableCoin()
@@ -54,6 +60,9 @@ public class Coin : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if(gameObject.GetComponent<MoveToDecSpeedWithoutRot>() != null && gameObject.GetComponent<MoveToDecSpeedWithoutRot>().reached == true)
+        {
+            GetComponent<BoxCollider>().enabled = true;
+        }
+    }
 }

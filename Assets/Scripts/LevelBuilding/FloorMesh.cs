@@ -83,15 +83,13 @@ public class FloorMesh : MonoBehaviour {
 
         mesh.name = "Generated mesh";
         GetComponent<MeshFilter>().mesh = mesh;
-        if (gameObject.GetComponent<MeshCollider>() == null)
-            gameObject.AddComponent<MeshCollider>();
-        else
+
+        if (gameObject.GetComponent<MeshCollider>() != null)
         {
             DestroyImmediate(GetComponent<MeshCollider>());
-            gameObject.AddComponent<MeshCollider>();
         }
 
-        leftRim.transform.position = (endPos1 + prevPos1) / 2.0f;
+            leftRim.transform.position = (endPos1 + prevPos1) / 2.0f;
         leftRim.transform.localScale = new Vector3(0.3f, 0.3f, (endPos1 - prevPos1).magnitude);
         leftRim.transform.forward = (endPos1 - prevPos1).normalized;
         rightRim.transform.position = (endPos2 + prevPos2) / 2.0f;
@@ -117,12 +115,27 @@ public class FloorMesh : MonoBehaviour {
 
     }
 	
+    void addCollider()
+    {
+        if (gameObject.GetComponent<MeshCollider>() == null)
+            gameObject.AddComponent<MeshCollider>();
+        else
+        {
+            DestroyImmediate(GetComponent<MeshCollider>());
+            gameObject.AddComponent<MeshCollider>();
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
 		if(animating)
         {
             //GetComponent<MoveToDecreasingSpeed>().moveToword();
-            if (GetComponent<MoveToDecreasingSpeed>().reached == true) animating = false;
+            if (GetComponent<MoveToDecreasingSpeed>().reached == true)
+            {
+                animating = false;
+                addCollider();
+            }
         }
 	}
 
