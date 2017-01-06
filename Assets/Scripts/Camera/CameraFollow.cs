@@ -20,7 +20,13 @@ public class CameraFollow : MonoBehaviour {
 	void Update () {
 	    if(follow != null)
         {
-            Vector3 offset = follow.transform.localToWorldMatrix * Vector3.back * 40.0f;//(Quaternion.Euler(0, follow.transform.rotation.eulerAngles.y, 0) * Vector3.back * 40.0f);
+            Vector3 offset = follow.transform.localToWorldMatrix * Vector3.back * 15.0f;//(Quaternion.Euler(0, follow.transform.rotation.eulerAngles.y, 0) * Vector3.back * 40.0f);
+            if(GetComponent<CameraRotate>().cameraTrackWay == CameraTrackWay.trackVelocity)
+            {
+                Vector3 velocity = follow.GetComponent<Rigidbody>().velocity;
+                velocity.y = 0;
+                offset = velocity.normalized * -15.0f;
+            }
             Vector3 pos = follow.transform.position + offset;
             if (zoom)
                 pos.y = pos.y + cameraY;//getZoomCameraY(); //cameraY;
