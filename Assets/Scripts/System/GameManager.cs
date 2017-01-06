@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour {
 
 
     void Start () {
+        Application.targetFrameRate = 60;
 		gameHighScore = PlayerPrefs.GetInt ("High Score");
         current = this;
         state = GameState.Start;
