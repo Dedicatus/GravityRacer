@@ -74,7 +74,7 @@ public class Player : MonoBehaviour {
     {
         if (playerState == PlayerState.Playing)
         {
-            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, -rotateSpeed * Time.deltaTime);
+            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, -rotateSpeed * Time.fixedDeltaTime);
             vehicle.OnRotateLeft();
         }
 
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour {
     {
         if (playerState == PlayerState.Playing)
         {
-            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, rotateSpeed * Time.deltaTime);
+            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, rotateSpeed * Time.fixedDeltaTime);
             vehicle.OnRotateRight();
         }
     }

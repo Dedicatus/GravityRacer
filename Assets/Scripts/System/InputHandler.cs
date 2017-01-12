@@ -14,16 +14,15 @@ public class InputHandler : MonoBehaviour {
     {
     }
 	void AccelarePlayer(){
-		Player.current.GetComponentInChildren<SelfRotateByZ>().rotateRate = 120;
+		//Player.current.GetComponentInChildren<SelfRotateByZ>().rotateRate = 120;
 		Player.current.pushForce = 350;
 	}
 	void RecoverPlayer(){
-		Player.current.GetComponentInChildren<SelfRotateByZ> ().rotateRate = 60;
+		//Player.current.GetComponentInChildren<SelfRotateByZ> ().rotateRate = 60;
 		Player.current.pushForce = 150;
 	}
 
-	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
         if (GameManager.current.state == GameManager.GameState.Start)
         {
