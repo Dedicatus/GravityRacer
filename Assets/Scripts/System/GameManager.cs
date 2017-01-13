@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour {
     public enum GameState
     {
         Start,
+        AssembleTrack,
+        CutScene,
         Running
     }
 
@@ -21,8 +23,6 @@ public class GameManager : MonoBehaviour {
 
     public void StartGame()
     {
-        //GameObject.Find("Player").active = true;
-        //player.active = true;
         Player.current.Launch();
         //Player.current.playerState = Player.PlayerState.Playing;
         print("Running");
@@ -31,6 +31,12 @@ public class GameManager : MonoBehaviour {
         ChallengeManager.current.startTime = Time.time;
         ChallengeManager.current.getHardTimeRemain = 15.0f;
     }
+
+    public void StartCutScene()
+    {
+        state = GameState.CutScene;
+    }
+
 	public void SetHighScore(){
 		if (gameScore > gameHighScore) {
 			gameHighScore = gameScore;

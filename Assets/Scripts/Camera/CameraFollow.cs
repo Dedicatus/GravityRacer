@@ -38,6 +38,7 @@ public class CameraFollow : MonoBehaviour {
                 else
                     pos.y = pos.y + cameraY;
                 transform.position = pos;
+                transform.rotation = Quaternion.Euler(30.0f, Player.current.transform.rotation.eulerAngles.y, 0);
             }
             if(trackWay == CameraTrackWay.trackVelocity)
             {

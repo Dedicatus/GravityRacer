@@ -66,7 +66,7 @@ public class FloorMesh : MonoBehaviour {
         {
             //Quaternion randomOffset = Quaternion.Euler( (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f), (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(0.0f, 5.0f));
             //normals[a] = randomOffset * Vector3.Cross(dir, (prevPos2 - prevPos1).normalized);  //Vector3.up;
-            normals[a] = Quaternion.Euler(dir.x, 0, 0) * Vector3.up;
+            normals[a] = Vector3.Cross(dir, new Vector3(dir.z, 0, -dir.x));//Quaternion.Euler(dir.x, dir.y, 0) * Vector3.up;
         }
 
         triangles[0] = 0;
@@ -101,6 +101,15 @@ public class FloorMesh : MonoBehaviour {
         // dir.Normalize();
     }
 
+    public void changeNormalByDir(Vector3 dir)
+    {
+        for (int a = 0; a != 4; ++a)
+        {
+            normals[a] = dir;
+        }
+        GetComponent<MeshFilter>().mesh.normals = normals;
+    }
+
     void animateToDest()
     {
         transform.position = new Vector3(0, -100.0f, 0);
@@ -133,6 +142,8 @@ public class FloorMesh : MonoBehaviour {
             //GetComponent<MoveToDecreasingSpeed>().moveToword();
             if (GetComponent<MoveToDecreasingSpeed>().reached == true)
             {
+                if (GameManager.current.state == GameManager.GameState.AssembleTrack)
+                    GameManager.current.state = GameManager.GameState.Start;
                 animating = false;
                 addCollider();
             }

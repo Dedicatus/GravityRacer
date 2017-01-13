@@ -30,43 +30,67 @@ public class ChallengeManager : MonoBehaviour {
             data.floorCount = 10;
             data.coinCount = Random.Range(0, data.floorCount);
             data.floorTurningAngle = 0;
-            data.obstacleCount = 0;
+            //data.obstacleCount = 0;
             return data;
         }
 
         //Generate new floor type
-        data.floorType = (FloorType)Random.Range(0, 3);
+        data.floorType = (FloorType)Random.Range(0, 4);
+        data.obstacles = new ArrayList();
+        ObstacleData obstacleData = new ObstacleData();
         //print(floorType);
         switch (data.floorType)
         {
             case FloorType.Straight:
                 data.floorCount = Random.Range(0, 3);
                 data.coinCount = Random.Range(0, data.floorCount);
+                data.coinStartIndex = Random.Range(0, data.floorCount - data.coinCount);
                 data.floorTurningAngle = 0;
-                data.obstacleCount = Random.Range(0, data.floorCount-1);
-                remainingChallenges -= data.obstacleCount;
+                obstacleData.obstacleType = ObstacleType.Cube;
+                obstacleData.obstacleCount = Random.Range(0, data.floorCount - 1);
+                obstacleData.obstacleStartIndex = Random.Range(0, data.floorCount - obstacleData.obstacleCount);
+                data.obstacles.Add(obstacleData);
+                remainingChallenges -= obstacleData.obstacleCount;
                 break;
             case FloorType.SmoothCurve:
                 data.floorCount = Random.Range(5, 20);
                 data.coinCount = Random.Range(0, data.floorCount);
+                data.coinStartIndex = Random.Range(0, data.floorCount - data.coinCount);
                 data.floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(4.0f, 10.0f);
-                data.obstacleCount = Random.Range(0, data.floorCount / 3);
+                obstacleData.obstacleType = ObstacleType.Cube;
+                obstacleData.obstacleCount = Random.Range(0, data.floorCount / 3);
+                obstacleData.obstacleStartIndex = Random.Range(0, data.floorCount - obstacleData.obstacleCount);
+                data.obstacles.Add(obstacleData);
                 remainingChallenges -= 2;
                 break;
             case FloorType.SteepCurve:
                 data.floorCount = Random.Range(5, 10);
                 data.coinCount = Random.Range(0, data.floorCount);
+                data.coinStartIndex = Random.Range(0, data.floorCount - data.coinCount);
                 data.floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(10.0f, 15.0f);
-                data.obstacleCount = Random.Range(0, data.floorCount / 3);
+                obstacleData.obstacleType = ObstacleType.Cube;
+                obstacleData.obstacleCount = Random.Range(0, data.floorCount / 3);
+                obstacleData.obstacleStartIndex = Random.Range(0, data.floorCount - obstacleData.obstacleCount);
+                data.obstacles.Add(obstacleData);
                 remainingChallenges -= 3;
                 break;
-            case FloorType.UTurn:
+            case FloorType.Jump:
                 data.floorCount = 10;
                 data.coinCount = Random.Range(0, data.floorCount);
-                data.floorTurningAngle = (Random.Range(0, 1) > 0.5f ? 1 : -1) * Random.Range(5, 15);
-                remainingChallenges -= data.obstacleCount;
+                data.coinStartIndex = Random.Range(0, data.floorCount - data.coinCount);
+                data.floorTurningAngle = 0;
+                obstacleData.obstacleType = ObstacleType.Jump;
+                obstacleData.obstacleCount = 1;
+                obstacleData.obstacleStartIndex = Random.Range(0, data.floorCount - obstacleData.obstacleCount);
+                data.obstacles.Add(obstacleData);
+                remainingChallenges -= 2;
                 break;
             case FloorType.NarrowWidth:
+                data.floorCount = 10;
+                data.coinCount = Random.Range(0, data.floorCount);
+                data.coinStartIndex = Random.Range(0, data.floorCount - data.coinCount);
+                data.floorTurningAngle = (Random.Range(0.0f, 1.0f) > 0.5f ? 1 : -1) * Random.Range(4.0f, 10.0f);
+                remainingChallenges -= 2;
                 break;
             case FloorType.TotalRandom:
                 break;
@@ -74,6 +98,7 @@ public class ChallengeManager : MonoBehaviour {
             default:
                 break;
         }
+
         return data;
     }
 

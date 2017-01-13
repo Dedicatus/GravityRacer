@@ -7,10 +7,25 @@ public enum FloorType
     Straight,
     SmoothCurve,
     SteepCurve,
-    UTurn,
+    Jump,
     NarrowWidth,//Wait for more
     TotalRandom
 }
+
+public enum ObstacleType
+{
+    Cube,
+    Jump,
+    BeforeJump
+}
+
+public class ObstacleData
+{
+    public ObstacleType obstacleType;
+    public int obstacleCount;
+    public int obstacleStartIndex;
+}
+
 
 public class FloorTypeData
 {
@@ -18,7 +33,8 @@ public class FloorTypeData
     public int floorCount;
     public float floorTurningAngle;
     public int coinCount;
-    public int obstacleCount;
+    public int coinStartIndex;
+    public ArrayList obstacles;
 }
 
 public class FloorBuilder : MonoBehaviour {
@@ -66,10 +82,14 @@ public class FloorBuilder : MonoBehaviour {
 
     float lastMakeFloor;
 
+    FloorTypeData floorTypeData;
+
     // Use this for initialization
     void Start () {
         
         current = this;
+
+        GameManager.current.state = GameManager.GameState.AssembleTrack;
 
         floorMeshes = new FloorMesh[floorMeshCount];
         for(int a=0;a!=floorMeshCount;++a)
@@ -83,8 +103,9 @@ public class FloorBuilder : MonoBehaviour {
             floorMeshes[a].coinIndex = -1;
             floorObject.transform.parent = transform;
         }
-        remainingFloorCount = initialStraightLength;
-        floorTurningAngle = 0;
+        floorTypeData = new FloorTypeData();
+        floorTypeData.floorCount = initialStraightLength;
+        floorTypeData.floorTurningAngle = 0;
         obstacleCount = 0;
         obstacleCountRemain = 0;
 
@@ -138,28 +159,39 @@ public class FloorBuilder : MonoBehaviour {
 
     void makeFloorByType()
     {
-        if(remainingFloorCount <= 0)
+        if(floorTypeData.floorCount <= 0)
         {
             getFloorTypeByChallengeManager();//refreshFloorType();
         }
-        remainingFloorCount--;
+        floorTypeData.floorCount--;
 
         floorMeshes[startIndex].width = width;
         floorMeshes[startIndex].length = length;
         floorMeshes[startIndex].prevPos1 = floorMeshes[endIndex].endPos1;
         floorMeshes[startIndex].prevPos2 = floorMeshes[endIndex].endPos2;
         floorMeshes[startIndex].prevDir = floorMeshes[endIndex].dir;
-        floorMeshes[startIndex].dir = Quaternion.Euler(0, floorTurningAngle, 0) * floorMeshes[startIndex].prevDir;
+        floorMeshes[startIndex].dir = Quaternion.Euler(0, floorTypeData.floorTurningAngle, 0) * floorMeshes[startIndex].prevDir;
         floorMeshes[startIndex].makeMesh();
-
-        obstacleCountRemain--;
-        if (obstacleCountRemain < obstacleCount && obstacleCountRemain >= 0)
+        
+        if(floorTypeData.obstacles != null)
         {
-            ObstacleBuilder.current.makeObstacleOnMesh(startIndex);
+            for (int a = 0; a != floorTypeData.obstacles.Count; ++a)
+            {
+                ObstacleData obsData = (ObstacleData)floorTypeData.obstacles[a];
+                obsData.obstacleStartIndex--;
+                if(obsData.obstacleStartIndex == 0 && obsData.obstacleType == ObstacleType.Jump)
+                {
+                    ObstacleBuilder.current.makeObstacleOnMesh(startIndex, ObstacleType.BeforeJump);
+                }
+                if (obsData.obstacleStartIndex < 0 && -obsData.obstacleStartIndex <= obsData.obstacleCount)
+                {
+                    ObstacleBuilder.current.makeObstacleOnMesh(startIndex, obsData.obstacleType);
+                }
+            }
         }
 
-        coinRemain--;
-        if (coinRemain >= 0 && coinRemain < coinCount)
+        floorTypeData.coinStartIndex--;
+        if (floorTypeData.coinStartIndex < 0 && -floorTypeData.coinStartIndex <= floorTypeData.coinCount)
             CoinGenerator.current.putCoin(startIndex);
         endIndex = startIndex;
         startIndex = (startIndex + 1) % floorMeshCount;
@@ -168,13 +200,14 @@ public class FloorBuilder : MonoBehaviour {
 
     void getFloorTypeByChallengeManager()
     {
-        FloorTypeData data = ChallengeManager.current.refreshFloorType();
+        floorTypeData = ChallengeManager.current.refreshFloorType(); 
+        /*FloorTypeData data = ChallengeManager.current.refreshFloorType();
         remainingFloorCount =   data.floorCount;
         coinCount = data.coinCount;
         coinRemain = Random.Range(coinCount, remainingFloorCount);
         floorTurningAngle = data.floorTurningAngle;
         obstacleCount = data.obstacleCount;
-        obstacleCountRemain = Random.Range(obstacleCount, remainingFloorCount);
+        obstacleCountRemain = Random.Range(obstacleCount, remainingFloorCount);*/
     }
 
     void refreshFloorType()
@@ -201,7 +234,7 @@ public class FloorBuilder : MonoBehaviour {
                 coinRemain = Random.Range(coinCount, remainingFloorCount);
                 floorTurningAngle = (Random.Range(0.0f,1.0f)>0.5f?1:-1) *  Random.Range(10.0f, 15.0f);
                 break;
-            case FloorType.UTurn:
+            case FloorType.Jump:
                 remainingFloorCount = 10;
                 coinCount = Random.Range(0, remainingFloorCount);
                 coinRemain = Random.Range(coinCount, remainingFloorCount);
