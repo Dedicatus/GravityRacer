@@ -17,7 +17,9 @@ public class Player : MonoBehaviour {
     public static Player current;
 
     public float pushForce;
+	public float accelerateForce;
     public float gravity;
+	public float force;
 
     public PlayerState playerState;
 
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour {
 	void FixedUpdate() {
         if(playerState == PlayerState.Playing || playerState == PlayerState.Dead)
         {
-            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * pushForce);
+            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * force);
             rigidBody.AddForce(Vector3.down * gravity);
         } else if(playerState == PlayerState.Launching)
         {

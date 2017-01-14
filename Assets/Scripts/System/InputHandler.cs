@@ -15,11 +15,11 @@ public class InputHandler : MonoBehaviour {
     }
 	void AccelarePlayer(){
 		//Player.current.GetComponentInChildren<SelfRotateByZ>().rotateRate = 120;
-		Player.current.pushForce = 350;
+		Player.current.force = Player.current.accelerateForce;
 	}
 	void RecoverPlayer(){
 		//Player.current.GetComponentInChildren<SelfRotateByZ> ().rotateRate = 60;
-		Player.current.pushForce = 150;
+		Player.current.force = Player.current.pushForce;
 	}
 
 	void FixedUpdate ()
