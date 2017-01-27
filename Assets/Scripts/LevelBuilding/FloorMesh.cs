@@ -156,7 +156,7 @@ public class FloorMesh : MonoBehaviour {
         {
             Vector3 rot = Player.current.transform.eulerAngles;
             rot.x = -Mathf.Asin(dir.y) * Mathf.Rad2Deg + 14;
-            Player.current.transform.eulerAngles = rot;//.up = Vector3.Cross(endPos1 - prevPos1, prevPos2 - prevPos1).normalized;
+            //Player.current.transform.eulerAngles = rot;//.up = Vector3.Cross(endPos1 - prevPos1, prevPos2 - prevPos1).normalized;
             transform.parent.GetComponent<FloorBuilder>().meshCollided(index);
         }
         
