@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum FloorType
 {
-    Straight,
+    Straight = 0,
     SmoothCurve,
     SteepCurve,
     Jump,

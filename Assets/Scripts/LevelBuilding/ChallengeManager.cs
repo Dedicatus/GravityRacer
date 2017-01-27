@@ -10,6 +10,8 @@ public class ChallengeManager : MonoBehaviour {
     public int challengesPerRest;
     public int remainingChallenges;
 
+	public float[] challengeChances;
+
     public float startTime;
     public float getHardTimeRemain;
 
@@ -18,6 +20,25 @@ public class ChallengeManager : MonoBehaviour {
         current = this;
         remainingChallenges = challengesPerRest;
     }
+
+	public FloorType randomByPresetChance() {
+		float randomRange = 100;
+		float randomNumber = Random.Range(0,randomRange);
+		float baseValue = 0;
+
+		for(int i=0; i<challengeChances.Length;i++){
+			float chance = baseValue + challengeChances [i] * randomRange;
+			if(randomNumber <= chance) {
+				return (FloorType)i;
+			}
+			baseValue = baseValue + (challengeChances [i] * randomRange);
+		}
+		//end
+
+		int k=0;
+		FloorType res = (FloorType)k;
+		return res;
+	}
 
     public FloorTypeData refreshFloorType()
     {
@@ -35,7 +56,7 @@ public class ChallengeManager : MonoBehaviour {
         }
 
         //Generate new floor type
-        data.floorType = (FloorType)Random.Range(0, 4);
+		data.floorType = randomByPresetChance();//(FloorType)Random.Range(0, 4);
         data.obstacles = new ArrayList();
         ObstacleData obstacleData = new ObstacleData();
         //print(floorType);
@@ -50,7 +71,7 @@ public class ChallengeManager : MonoBehaviour {
                 obstacleData.obstacleCount = Random.Range(0, data.floorCount - 1);
                 obstacleData.obstacleStartIndex = Random.Range(0, data.floorCount - obstacleData.obstacleCount);
                 data.obstacles.Add(obstacleData);
-                remainingChallenges -= obstacleData.obstacleCount;
+                remainingChallenges -= obstacleData.obstacleCount/3;
                 break;
             case FloorType.SmoothCurve:
                 data.floorCount = Random.Range(5, 20);
