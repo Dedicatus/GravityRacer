@@ -141,7 +141,7 @@ public class FloorBuilder : MonoBehaviour {
         collidedTime += Time.deltaTime;
         if(collidedTime >= 2.0f)
         {
-            Player.current.Die();
+            //Player.current.Die();
         }
         if( (collidingIndex > startIndex && collidingIndex - startIndex > floorMeshCount / 2) || (collidingIndex < startIndex && collidingIndex + floorMeshCount - startIndex > floorMeshCount / 2)  )
         {

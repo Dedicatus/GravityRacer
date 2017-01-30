@@ -12,18 +12,15 @@ public class Player : MonoBehaviour {
     }
 
 
-    public float rotateSpeed;
 
     public static Player current;
-
-    public float pushForce;
-	public float accelerateForce;
-    public float gravity;
-	public float force;
-
+    
     public PlayerState playerState;
 
+    public float launchForce;
+
     public VehicleSuper vehicle;
+    public PlayerPhysics physics;
 
     bool died;
     
@@ -45,23 +42,20 @@ public class Player : MonoBehaviour {
 	void FixedUpdate() {
         if(playerState == PlayerState.Playing || playerState == PlayerState.Dead)
         {
-            rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * force);
-            rigidBody.AddForce(Vector3.down * gravity);
+            //rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * force);
         } else if(playerState == PlayerState.Launching)
         {
-            rigidBody.AddForce(Vector3.down * gravity);
+            //rigidBody.AddForce(Vector3.down * gravity * rigidBody.mass);
         }
-
-        //gravity
-
     }
 
     public void Launch()
     {
         playerState = PlayerState.Launching;
+        physics.playerPhysicsState = PlayerPhysics.PlayerPhysicsState.Dropping;
 
         GetComponent<Rigidbody>().useGravity = true;
-        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * 100, ForceMode.Impulse);
+        rigidBody.AddForce(transform.localToWorldMatrix * Vector3.forward * launchForce, ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -69,6 +63,40 @@ public class Player : MonoBehaviour {
         if(playerState == PlayerState.Launching)
         {
             playerState = PlayerState.Playing;
+            physics.RegularPush();
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (playerState == PlayerState.Launching)
+        {
+            playerState = PlayerState.Playing;
+        }
+    }
+
+    public void hitGround()
+    {
+        if (playerState == PlayerState.Launching)
+        {
+            playerState = PlayerState.Playing;
+        }
+    }
+
+    public void Accelerate()
+    {
+        if (playerState == PlayerState.Playing)
+        {
+            physics.AcceleratePush();
+            vehicle.OnHoldBoth();
+        }
+    }
+
+    public void Recover()
+    {
+        if (playerState == PlayerState.Playing)
+        {
+            physics.RegularPush();
         }
     }
 
@@ -76,7 +104,7 @@ public class Player : MonoBehaviour {
     {
         if (playerState == PlayerState.Playing)
         {
-            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, -rotateSpeed * Time.fixedDeltaTime);
+            physics.RotateLeft();
             vehicle.OnRotateLeft();
         }
 
@@ -86,7 +114,7 @@ public class Player : MonoBehaviour {
     {
         if (playerState == PlayerState.Playing)
         {
-            transform.Rotate(transform.worldToLocalMatrix * Vector3.up, rotateSpeed * Time.fixedDeltaTime);
+            physics.RotateRight();
             vehicle.OnRotateRight();
         }
     }

@@ -14,12 +14,14 @@ public class InputHandler : MonoBehaviour {
     {
     }
 	void AccelarePlayer(){
-		//Player.current.GetComponentInChildren<SelfRotateByZ>().rotateRate = 120;
-		Player.current.force = Player.current.accelerateForce;
+        //Player.current.GetComponentInChildren<SelfRotateByZ>().rotateRate = 120;
+		//Player.current.force = Player.current.accelerateForce;
+        Player.current.Accelerate();
 	}
 	void RecoverPlayer(){
-		//Player.current.GetComponentInChildren<SelfRotateByZ> ().rotateRate = 60;
-		Player.current.force = Player.current.pushForce;
+        ////Player.current.GetComponentInChildren<SelfRotateByZ> ().rotateRate = 60;
+        //Player.current.force = Player.current.pushForce;
+        Player.current.Recover();
 	}
 
 	void FixedUpdate ()

@@ -55,7 +55,7 @@
 
 		Pass{
 		Name "Regular"
-		Tags{ "RenderType" = "Opaque" }
+		Tags{ "LightMode" = "ForwardBase" "RenderType" = "Opaque"}
 		ZTest LEqual                // this checks for depth of the pixel being less than or equal to the shader
 		ZWrite On                   // and if the depth is ok, it renders the main texture.
 		Cull Back
@@ -65,10 +65,12 @@
 #pragma vertex vert
 #pragma fragment frag
 #include "UnityCG.cginc"
+#include "UnityLightingCommon.cginc" // for _LightColor0
 
 		struct v2f {
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
+		fixed4 diff : COLOR0; // diffuse lighting color
 	};
 
 	sampler2D _MainTex;
@@ -79,12 +81,20 @@
 		v2f o;
 		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 		o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+		half3 worldNormal = UnityObjectToWorldNormal(v.normal);
+		// dot product between normal and light direction for
+		// standard diffuse (Lambert) lighting
+		half nl = max(0, dot(worldNormal, _WorldSpaceLightPos0.xyz));
+		// factor in the light color
+		o.diff = nl * _LightColor0;
+		o.diff.rgb += ShadeSH9(half4(worldNormal, 1));
 		return o;
 	}
 
 	half4 frag(v2f i) : COLOR
 	{
 		half4 texcol = tex2D(_MainTex,i.uv);
+		texcol *= i.diff;
 		return texcol;
 	}
 		ENDCG
